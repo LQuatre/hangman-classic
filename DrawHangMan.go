@@ -6,9 +6,9 @@ import "fmt"
 
 func DrawHangMang(data HangManData, state int) {
 	HangMan := ReadFile("assets/Hangman Positions/hangman.txt")
-	for index, character := range string {
+	for index, HangMan := range string {
 		if index >= state*8 && index < (state+1)*8 {
-			fmt.Println(character)
+			fmt.Println(HangMan)
 		}
 	}
 }
