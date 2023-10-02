@@ -24,6 +24,7 @@ func Play(data HangManData) {
 	fmt.Scanln(&read)
 
 	for data.Attempts > 0 {
+
 		// X Si la lettre n'est pas présente, il affichera un message d'erreur et le nombre de tentatives diminuera (10->9->...0).
 		if !Contains(data.ToFind, read) {
 			data.Attempts--
