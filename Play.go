@@ -23,11 +23,13 @@ func Play(data HangManData) {
 	var read string
 	fmt.Scanln(&read)
 
-	for data.Attempts > 0 {
+	for data.Attempts < 10 {
 
 		// X Si la lettre n'est pas présente, il affichera un message d'erreur et le nombre de tentatives diminuera (10->9->...0).
 		if !Contains(data.ToFind, read) {
-			data.Attempts--
+			data.Attempts++
+
+			DrawHangMang(data.Attempts)
 
 			fmt.Println("The letter is not in the word. You have", data.Attempts, "attempts left.")
 			fmt.Println("The word is : ", data.Word)
@@ -42,7 +44,7 @@ func Play(data HangManData) {
 			fmt.Println("The word is : ", data.Word)
 		}
 
-		if data.Attempts == 0 {
+		if data.Attempts == 10 {
 			fmt.Println("You lose !")
 			break
 		}

@@ -19,7 +19,10 @@ func main() {
 	}
 
 	// O Tout d'abord, le programme choisira au hasard un mot dans le fichier.
-	MyHangManData.ToFind = hangman_classic.ReadFile("assets/Dictionnary/" + args[0])[rand.Intn(len(hangman_classic.ReadFile("assets/Dictionnary/"+args[0])))]
+	openFile := hangman_classic.ReadFile("assets/Dictionnary/" + args[0])
+	lenFile := len(openFile)
+	random := rand.Intn(lenFile)
+	MyHangManData.ToFind = openFile[random]
 
 	// X Le programme révèlera n lettres aléatoires dans le mot, où n est le len(word) / 2 - 1.
 	lettersList := strings.Split(MyHangManData.ToFind, "")
@@ -34,8 +37,6 @@ func main() {
 	for i := 0; i < numberOfLettersToReveal; i++ {
 		MyHangManData.Word = MyHangManData.Word[:i] + LettersToReveal[i] + MyHangManData.Word[i+1:]
 	}
-
-	MyHangManData.Attempts = 10
 
 	hangman_classic.Play(hangman_classic.HangManData(MyHangManData))
 
