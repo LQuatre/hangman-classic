@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"hangman_classic"
 	"os"
 	"strings"
 )
@@ -16,6 +15,7 @@ func stringToInt(s string) int {
 }
 
 func main() {
+	hangman_classic.ClearTerminal()
 	MyHangManData := hangman_classic.HangManData{}
 	args := os.Args[1:]
 	rankingFile := hangman_classic.ReadFile("assets/Save/ranking.txt")
@@ -25,8 +25,6 @@ func main() {
 			ranking = append(ranking, [3]string{strings.Split(line, ":")[0], strings.Split(line, ":")[1], strings.Split(line, ":")[2]})
 		}
 	}
-
-	fmt.Println("Welcome to Hangman Classic !")
 	fmt.Println("Do you want to see the ranking ? (y/n)")
 	var answer string
 	fmt.Scanln(&answer)
@@ -57,13 +55,13 @@ func main() {
 		for i := 0; i < len(sortedRanking); i++ {
 			if i < 10 {
 				if i == 0 {
-					fmt.Println("🥇 " + sortedRanking[i][0] + " avec " + sortedRanking[i][1] + " tentatives restantes et le mot " + sortedRanking[i][2])
+					fmt.Println("🥇 " + sortedRanking[i][0] + " with " + sortedRanking[i][1] + " attempts left and the word " + sortedRanking[i][2])
 				} else if i == 1 {
-					fmt.Println("🥈 " + sortedRanking[i][0] + " avec " + sortedRanking[i][1] + " tentatives restantes et le mot " + sortedRanking[i][2])
+					fmt.Println("🥈 " + sortedRanking[i][0] + " with " + sortedRanking[i][1] + " attempts left and the word " + sortedRanking[i][2])
 				} else if i == 2 {
-					fmt.Println("🥉 " + sortedRanking[i][0] + " avec " + sortedRanking[i][1] + " tentatives restantes et le mot " + sortedRanking[i][2])
+					fmt.Println("🥉 " + sortedRanking[i][0] + " with " + sortedRanking[i][1] + " attempts left and the word " + sortedRanking[i][2])
 				} else {
-					fmt.Println("🏅 " + sortedRanking[i][0] + " avec " + sortedRanking[i][1] + " tentatives restantes et le mot " + sortedRanking[i][2])
+					fmt.Println("🏅 " + sortedRanking[i][0] + " with " + sortedRanking[i][1] + " attempts left and the word " + sortedRanking[i][2])
 				}
 			}
 		}
@@ -77,15 +75,20 @@ func main() {
 	if answer != "y" {
 		return
 	}
+
 	if len(args) == 0 {
-		fmt.Println("Please provide a dictionary file.")
+		fmt.Println("Enter arguments")
 		return
 	} else if len(args) == 1 {
-		hangman_classic.NewGame(args, MyHangManData)
-	} else if len(args) == 3 {
-		if args[1] == "--startWith" {
+		if hangman_classic.Readable("assets/Dictionary/" + args[0]) {
+			hangman_classic.NewGame(args, MyHangManData)
+		} else {
+			fmt.Println("1 - Please provide a valid argument.")
+		}
+	} else if present, pos := hangman_classic.ContainsArray(args, "--startWith"); present {
+		if hangman_classic.Readable("assets/Save/" + args[pos+1]) {
 			saved := hangman_classic.ReadFile("assets/Save/" + args[2])
-			if (len(saved) == 0 || saved[0] == "") {
+			if len(saved) == 0 || saved[0] == "" {
 				hangman_classic.NewGame(args, MyHangManData)
 				return
 			}
@@ -97,7 +100,15 @@ func main() {
 			hangman_classic.Play(hangman_classic.HangManData(MyHangManData))
 			hangman_classic.EmptyFile("assets/Save/" + args[2])
 		} else {
-			fmt.Println("Please provide a valid argument.")
+			fmt.Println("2 - Please provide a valid argument.")
+		}
+	} else if present, pos := hangman_classic.ContainsArray(args, "--letterFile"); present {
+		if hangman_classic.Readable("assets/Ascii-letters/" + args[pos+1]) {
+			MyHangManData.IsAscii = true
+			MyHangManData.Ascii = hangman_classic.ReadFile("assets/Ascii-letters/" + args[pos+1])
+			hangman_classic.NewGame(args, MyHangManData)
+		} else {
+			fmt.Println("3 - Please provide a valid argument.")
 		}
 	}
 }

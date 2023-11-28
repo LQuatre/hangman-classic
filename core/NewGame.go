@@ -1,19 +1,12 @@
-package hangman_classic
+package core
 
 import (
-	"fmt"
 	"math/rand"
 	"strings"
 )
 
 func NewGame(args []string, MyHangManData HangManData) {
-	fmt.Println("Please enter your name :")
-	_, err := fmt.Scanln(&MyHangManData.PlayerName)
-	if err != nil {
-		return
-	}
-	fmt.Println("Hello " + MyHangManData.PlayerName + " !")
-	openFile := ReadFile("assets/Dictionnary/" + args[0])
+	openFile := ReadFile("assets/Dictionary/" + args[0])
 	lenFile := len(openFile)
 	random := rand.Intn(lenFile)
 	MyHangManData.ToFind = openFile[random]

@@ -1,4 +1,4 @@
-package hangman_classic
+package core
 
 import (
 	"fmt"

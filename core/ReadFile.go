@@ -1,4 +1,4 @@
-package hangman_classic
+package core
 
 import (
 	"os"
@@ -8,8 +8,16 @@ import (
 func ReadFile(filename string) []string {
 	content, err := os.ReadFile(filename)
 	if err != nil {
-		//Do something
+		panic(err)
 	}
 	lines := strings.Split(string(content), "\n")
 	return lines
+}
+
+func Readable(filename string) bool {
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return false
+	}
+	return len(content) > 0
 }

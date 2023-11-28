@@ -1,4 +1,4 @@
-package hangman_classic
+package core
 
 func IntToString(i int) string {
 	var result string

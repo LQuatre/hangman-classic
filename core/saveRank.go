@@ -1,4 +1,4 @@
-package hangman_classic
+package core
 
 import (
 	"fmt"
@@ -20,6 +20,11 @@ func saveRank(data HangManData) {
 		fmt.Scanln(&answer)
 	}
 	if answer != "y" {
+		return
+	}
+	fmt.Println("Please enter your name :")
+	_, err := fmt.Scanln(&data.PlayerName)
+	if err != nil {
 		return
 	}
 	rankLine = data.PlayerName + ":" + attempts + ":" + data.Word
