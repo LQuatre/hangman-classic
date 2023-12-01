@@ -1,7 +1,8 @@
-package main
+package hangmanclassic
 
 import (
 	"fmt"
+	"hangmanclassic/core"
 	"os"
 	"strings"
 )
@@ -15,10 +16,10 @@ func stringToInt(s string) int {
 }
 
 func main() {
-	hangman_classic.ClearTerminal()
-	MyHangManData := hangman_classic.HangManData{}
+	core.ClearTerminal()
+	MyHangManData := core.HangManData{}
 	args := os.Args[1:]
-	rankingFile := hangman_classic.ReadFile("assets/Save/ranking.txt")
+	rankingFile := core.ReadFile("assets/Save/ranking.txt")
 	var ranking [][3]string // PlayerName : Attempts left : Word
 	for _, line := range rankingFile {
 		if line != "" {
@@ -80,16 +81,16 @@ func main() {
 		fmt.Println("Enter arguments")
 		return
 	} else if len(args) == 1 {
-		if hangman_classic.Readable("assets/Dictionary/" + args[0]) {
-			hangman_classic.NewGame(args, MyHangManData)
+		if core.Readable("assets/Dictionary/" + args[0]) {
+			core.NewGame(args, MyHangManData)
 		} else {
 			fmt.Println("1 - Please provide a valid argument.")
 		}
-	} else if present, pos := hangman_classic.ContainsArray(args, "--startWith"); present {
-		if hangman_classic.Readable("assets/Save/" + args[pos+1]) {
-			saved := hangman_classic.ReadFile("assets/Save/" + args[2])
+	} else if present, pos := core.ContainsArray(args, "--startWith"); present {
+		if core.Readable("assets/Save/" + args[pos+1]) {
+			saved := core.ReadFile("assets/Save/" + args[2])
 			if len(saved) == 0 || saved[0] == "" {
-				hangman_classic.NewGame(args, MyHangManData)
+				core.NewGame(args, MyHangManData)
 				return
 			}
 			MyHangManData.ToFind = saved[0]
@@ -97,16 +98,16 @@ func main() {
 			MyHangManData.PlayerName = saved[2]
 			MyHangManData.WordLength = len(MyHangManData.Word)
 			MyHangManData.Attempts = stringToInt(saved[3])
-			hangman_classic.Play(hangman_classic.HangManData(MyHangManData))
-			hangman_classic.EmptyFile("assets/Save/" + args[2])
+			core.Play(core.HangManData(MyHangManData))
+			core.EmptyFile("assets/Save/" + args[2])
 		} else {
 			fmt.Println("2 - Please provide a valid argument.")
 		}
-	} else if present, pos := hangman_classic.ContainsArray(args, "--letterFile"); present {
-		if hangman_classic.Readable("assets/Ascii-letters/" + args[pos+1]) {
+	} else if present, pos := core.ContainsArray(args, "--letterFile"); present {
+		if core.Readable("assets/Ascii-letters/" + args[pos+1]) {
 			MyHangManData.IsAscii = true
-			MyHangManData.Ascii = hangman_classic.ReadFile("assets/Ascii-letters/" + args[pos+1])
-			hangman_classic.NewGame(args, MyHangManData)
+			MyHangManData.Ascii = core.ReadFile("assets/Ascii-letters/" + args[pos+1])
+			core.NewGame(args, MyHangManData)
 		} else {
 			fmt.Println("3 - Please provide a valid argument.")
 		}
