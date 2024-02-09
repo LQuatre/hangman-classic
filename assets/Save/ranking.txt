@@ -10,3 +10,5 @@ Lucas:9:classe
 L4:2:pontil
 LQuatre:10:poubelle
 Lucas:9:banc
+Lucas:10:escalier
+ok:10:escalier
