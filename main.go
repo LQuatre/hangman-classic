@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/LQuatre/hangman-classic"
+	"github.com/LQuatre/hangman-classic/core"
 	"os"
 	"strings"
 )
